@@ -439,6 +439,7 @@ for detailed knowledge of the REST API calls presented in this section. The Clie
 - To validate and get details from a JWT token
 - To invalidate the JWT token
 - To obtain a PassTicket
+- To change a password
 
 ### Pre-requisites
 
@@ -453,6 +454,7 @@ The plain java library provides the `ZaasClient` interface with following public
 ```java
 public interface ZaasClient {
     String login(String userId, String password) throws ZaasClientException;
+    String login(String userId, String password, String newPassword) throws ZaasClientException;
     String login(String authorizationHeader) throws ZaasClientException;
     ZaasToken query(String token) throws ZaasClientException;
     ZaasToken query(HttpServletRequest request) throws ZaasClientException;
@@ -483,10 +485,14 @@ To integrate login, call one of the following methods for login in the `ZaasClie
     ```java
     String login(String authorizationHeader) throws ZaasClientException;
     ```
+- If the user provides credentials in the request body, there is also the option to change the password. Call the login method adding another String variable for the new password, call the following method from your API:
 
+    ```java
+    String login(String userId, String password, String newPassword) throws ZaasClientException;
+    ```
 These methods return the JWT token as a String. This token can then be used to authenticate the user in subsequent APIs.
 
-**Note:** Both methods automatically use the truststore file to add a security layer, which requires configuration in the `ConfigProperties` class.
+**Note:** All three of these methods automatically use the truststore file to add a security layer, which requires configuration in the `ConfigProperties` class.
 
 #### Validate and get details from the token (`query`)
 
