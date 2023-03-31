@@ -65,14 +65,19 @@ API ML uses the following authentication methods:
     - Certificates are used for service-only requests
 
 - **OIDC authentication**
-    -Client applications can authenticate users with an external/distributed IDP (OIDC provider), such as OKTA, KeyCloak and may more.
-    -The OIDC authentication with the ditributed IDP is intiated by the client application
+    API ML is now able to authenticate mainframe users with external/distributed IDP (OIDC provider), such as OKTA, KeyCloak and others. 
+Client applications can ask their users to login at OIDC provider's authentication page and then access APIs with the JWT provided by the external IDP.
+The basic flow is as follows:
+    -The client application intiates OIDC authentication flow with the ditributed IDP  
     -The user provides their credentials as required at the provider's authentication page/end-point
-    -The client application obtains authorization in form of access token
-    -The client application passes the access token to the API ML GW
-    -API ML federates the user identity and calls the requested resource with appropriate user credentials for the API service
-  
-For more information please read the detailed explanation of the OIDC authentication and Identity Federation   
+    -The client application obtains authorization in form of code that is exchanged for access JWT token (eventually also Identity JWT and Refresh JWT)
+    -The client application passes the access JWT token to the API ML GW with subsequent requests for mainframe resources
+    -API ML federates the user identities and calls the requested resource with appropriate mainframe user credentials
+
+**Prerequisite:** SAF/ESM must be configured to trust the distributed IDP and the ditributed identities of the users allowed to authenticate with this method are mapped to their mainframe idenitties in SAF/ESM.
+
+For more information please read the detailed explanation of the [OIDC authentication and Identity Federation](apiml-oidc-authentication.md)
+
 ### Zowe API ML services
 
 The following range of service types apply to the Zowe&trade; API ML:
